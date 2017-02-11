@@ -62,7 +62,7 @@ lazy val sharedSettings = Seq(
   scalacOptions := sharedScalacOptions) ++ sharedDependencySettings
 
 lazy val $name$JVMSettings = Seq(
-  scalacOptions ++= Seq("-Ywarn-dead-code") ++wartremoverOptions) ++jvmDependencySettings
+  scalacOptions ++= Seq("-Ywarn-dead-code") ++ wartremoverOptions) ++ jvmDependencySettings
 
 lazy val $name$JSSettings = Seq(
   scalacOptions --= Seq("-Ywarn-dead-code")) ++ jsDependencySettings
