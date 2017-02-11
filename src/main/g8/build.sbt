@@ -43,10 +43,7 @@ lazy val wartremoverOptions = List(
   "Var",
   "While").map((s: String) => "-P:wartremover:traverser:org.wartremover.warts." + s)
 
-lazy val jvmDependencySettings = Seq(
-  libraryDependencies ++= Seq(
-    "ch.qos.logback"  % "logback-classic" % "1.1.8",
-    "org.log4s"      %% "log4s"           % "1.3.4"))
+lazy val jvmDependencySettings = Seq.empty
 
 lazy val jsDependencySettings = Seq.empty
 
