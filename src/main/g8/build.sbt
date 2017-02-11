@@ -45,7 +45,6 @@ lazy val wartremoverOptions = List(
 
 lazy val jvmDependencySettings = Seq(
   libraryDependencies ++= Seq(
-    compilerPlugin("org.wartremover" %% "wartremover" % "1.2.1"),
     "ch.qos.logback"  % "logback-classic" % "1.1.8",
     "org.log4s"      %% "log4s"           % "1.3.4"))
 
@@ -53,16 +52,17 @@ lazy val jsDependencySettings = Seq.empty
 
 lazy val sharedDependencySettings = Seq(
   libraryDependencies ++= Seq(
+    compilerPlugin("org.wartremover" %% "wartremover" % "1.2.1"),
     "org.scalatest" %%% "scalatest" % "3.0.1" % "test"))
 
 lazy val sharedSettings = Seq(
   name := "$name$",
   organization := "$organization$",
   scalaVersion := "$scala_version$",
-  scalacOptions := sharedScalacOptions) ++ sharedDependencySettings
+  scalacOptions := sharedScalacOptions ++ wartremoverOptions) ++ sharedDependencySettings
 
 lazy val $name$JVMSettings = Seq(
-  scalacOptions ++= Seq("-Ywarn-dead-code") ++ wartremoverOptions) ++ jvmDependencySettings
+  scalacOptions ++= Seq("-Ywarn-dead-code")) ++ jvmDependencySettings
 
 lazy val $name$JSSettings = Seq(
   scalacOptions --= Seq("-Ywarn-dead-code")) ++ jsDependencySettings
