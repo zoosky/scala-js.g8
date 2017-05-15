@@ -64,11 +64,13 @@ lazy val sharedSettings =
       scalacOptions in (Compile, console) ~= (_ filterNot (nonConsoleOptions.contains(_))),
       scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value)
 
-lazy val $name$JVMSettings = Seq(
-  scalacOptions ++= Seq("-Ywarn-dead-code")) ++ jvmDependencySettings
+lazy val $name$JVMSettings =
+  jvmDependencySettings ++
+  Seq(scalacOptions ++= Seq("-Ywarn-dead-code"))
 
-lazy val $name$JSSettings = Seq(
-  scalacOptions --= Seq("-Ywarn-dead-code")) ++ jsDependencySettings
+lazy val $name$JSSettings =
+  jsDependencySettings ++
+  Seq(scalacOptions --= Seq("-Ywarn-dead-code"))
 
 lazy val $name$ = crossProject.in(file("."))
   .settings(sharedSettings: _*)
