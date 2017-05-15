@@ -43,6 +43,9 @@ lazy val wartremoverOptions = List(
   "Var",
   "While").map((s: String) => "-P:wartremover:traverser:org.wartremover.warts." + s)
 
+lazy val nonConsoleOptions =
+  wartremoverOptions ++ Seq("-Ywarn-unused-import", -"Xfatal-warnings")
+
 lazy val jvmDependencySettings = Seq.empty
 
 lazy val jsDependencySettings = Seq.empty
@@ -52,11 +55,14 @@ lazy val sharedDependencySettings = Seq(
     compilerPlugin("org.wartremover" %% "wartremover" % "1.2.1"),
     "org.scalatest" %%% "scalatest" % "3.0.1" % "test"))
 
-lazy val sharedSettings = Seq(
-  name := "$name$",
-  organization := "$organization$",
-  scalaVersion := "$scala_version$",
-  scalacOptions := sharedScalacOptions ++ wartremoverOptions) ++ sharedDependencySettings
+lazy val sharedSettings =
+  sharedDependencySettings ++
+  Seq(name := "$name$",
+      organization := "$organization$",
+      scalaVersion := "$scala_version$",
+      scalacOptions := sharedScalacOptions ++ wartremoverOptions,
+      scalacOptions in (Compile, console) ~= (_ filterNot (nonConsoleOptions.contains(_))),
+      scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value)
 
 lazy val $name$JVMSettings = Seq(
   scalacOptions ++= Seq("-Ywarn-dead-code")) ++ jvmDependencySettings
